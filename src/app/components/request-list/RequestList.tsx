@@ -1,9 +1,9 @@
-import React from 'react';
-import { RequestEntity, RequestFieldType, RequestType } from '../../entities/request.entity';
+import React, { useEffect, useState } from 'react';
 import { SingleRequest } from '../single-request/SingleRequest';
 import './RequestList.css';
+import { RequestEntity, RequestFieldType, RequestType } from '../../entities/request.entity';
 
-const requests: RequestEntity[] = [
+const items: RequestEntity[] = [
   {
     id: 1,
     type: RequestType.VK_CREDENTIALS,
@@ -48,13 +48,22 @@ const requests: RequestEntity[] = [
     ],
   },
 ];
+const getItems: () => Promise<RequestEntity[]> = () => new Promise(resolve => resolve(items));
 
-export const RequestList = () => (
-  <div className="request-list box">
-    {requests.map(it => (
-      <div key={it.id} className="single-request">
-        <SingleRequest id={it.id} type={it.type} fields={it.fields} />
-      </div>
-    ))}
-  </div>
-);
+export const RequestList = () => {
+  const [ requests, setRequests ]: [ RequestEntity[], (reqs: RequestEntity[]) => void ] = useState<RequestEntity[]>([]);
+
+  useEffect(() => {
+    getItems().then(it => setRequests(it));
+  });
+
+  return (
+    <div className="request-list box">
+      {requests.map(it => (
+        <div key={it.id} className="single-request">
+          <SingleRequest id={it.id} type={it.type} fields={it.fields} />
+        </div>
+      ))}
+    </div>
+  );
+};
