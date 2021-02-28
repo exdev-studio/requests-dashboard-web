@@ -1,0 +1,12 @@
+.header {
+  display: flex;
+}
+
+.header .logo {
+  height: 50px;
+}
+
+.header .left-side {
+  display: flex;
+  align-items: center;
+}

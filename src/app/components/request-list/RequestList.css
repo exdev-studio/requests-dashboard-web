@@ -1,0 +1,3 @@
+.request-list .single-request:not(:last-child) {
+  margin-bottom: 20px;
+}
